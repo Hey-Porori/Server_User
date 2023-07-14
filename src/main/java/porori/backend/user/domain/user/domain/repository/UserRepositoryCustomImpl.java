@@ -1,11 +1,14 @@
-package porori.backend.user.domain.user.domain;
+package porori.backend.user.domain.user.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import porori.backend.user.domain.user.domain.entity.QUser;
+import porori.backend.user.domain.user.domain.entity.User;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
-import static porori.backend.user.domain.user.domain.QUser.user;
+import static porori.backend.user.domain.user.domain.entity.QUser.user;
+
 
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 

@@ -1,4 +1,4 @@
-package porori.backend.user.domain.user.application.apple;
+package porori.backend.user.domain.user.application.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @Service
-public class UserAppleServiceImpl implements UserAppleService {
+public class UserAppleService {
 
     private static final String APPLE_JWK_URL = "https://appleid.apple.com/auth/keys";
     private static final String APPLE_ISSUER = "https://appleid.apple.com";

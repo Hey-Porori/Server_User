@@ -1,10 +1,11 @@
-package porori.backend.user.domain.user.domain;
+package porori.backend.user.domain.user.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import porori.backend.user.domain.user.domain.UserConstant.Role;
+import porori.backend.user.domain.user.application.dto.req.UserRequestDto;
+import porori.backend.user.domain.user.domain.entity.UserConstant.Role;
 
 import javax.persistence.*;
 
@@ -35,6 +36,19 @@ public class User {
     public User(String appleId, Role role) {
         this.appleId = appleId;
         this.role = role;
+    }
+
+    @Builder
+    public User(UserRequestDto.TestSignUpRequest signUpRequest) {
+        this.name=signUpRequest.getName();
+        this.nickName = signUpRequest.getNickName();
+        this.phoneNumber = signUpRequest.getPhoneNumber();
+        this.gender = signUpRequest.getGender();
+        this.address = signUpRequest.getAddress();
+        this.imageUrl = signUpRequest.getImageUrl();
+        this.email = signUpRequest.getEmail();
+        this.appleId=signUpRequest.getAppleID();
+        this.role=Role.ROLE_USER;
     }
 
     public void signup(String name, String nickName, String phoneNumber, boolean gender, String address, String imageUrl, String email) {

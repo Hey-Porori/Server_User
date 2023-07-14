@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import porori.backend.user.domain.user.domain.User;
+import porori.backend.user.domain.user.domain.entity.User;
 
 import java.util.Collection;
 import java.util.Collections;
