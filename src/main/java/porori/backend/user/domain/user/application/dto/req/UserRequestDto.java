@@ -1,4 +1,4 @@
-package porori.backend.user.domain.user.presentation.dto.req;
+package porori.backend.user.domain.user.application.dto.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import porori.backend.user.domain.user.domain.entity.UserConstant;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -70,4 +71,41 @@ public class UserRequestDto {
         private String reasonToLeave;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class TestSignUpRequest {
+
+        private String name;
+        private String phoneNumber;
+        private String appleID;
+        private String nickName;
+        private Boolean gender;
+        private String imageUrl;
+        private String email;
+        private String address;
+
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class TestLoginRequest {
+
+        private String appleId;
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class GetUserInfoRequest {
+
+        private String accessToken;
+
+    }
 }

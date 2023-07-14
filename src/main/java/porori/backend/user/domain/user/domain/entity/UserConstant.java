@@ -1,4 +1,4 @@
-package porori.backend.user.domain.user.domain;
+package porori.backend.user.domain.user.domain.entity;
 
 import lombok.Getter;
 

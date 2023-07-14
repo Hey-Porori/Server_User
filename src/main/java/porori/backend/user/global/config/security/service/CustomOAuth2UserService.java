@@ -13,7 +13,7 @@ import porori.backend.user.global.dto.OAuth2Attribute;
 
 import java.util.Collections;
 
-import static porori.backend.user.domain.user.domain.UserConstant.Role.ROLE_USER;
+import static porori.backend.user.domain.user.domain.entity.UserConstant.Role.ROLE_USER;
 
 @Service
 @Slf4j

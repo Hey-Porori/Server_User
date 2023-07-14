@@ -2,12 +2,12 @@ package porori.backend.user.global.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import porori.backend.user.domain.user.domain.User;
+import porori.backend.user.domain.user.domain.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static porori.backend.user.domain.user.domain.UserConstant.Role.ROLE_USER;
+import static porori.backend.user.domain.user.domain.entity.UserConstant.Role.ROLE_USER;
 
 @Getter
 @Builder
