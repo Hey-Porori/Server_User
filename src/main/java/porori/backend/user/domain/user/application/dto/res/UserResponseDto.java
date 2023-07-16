@@ -39,6 +39,7 @@ public class UserResponseDto {
     @NoArgsConstructor
     @ApiModel(description = "사용자 정보 객체")
     public static class GetUserInfoResponse{
+        private Long userId;
         private String name;
         private String nickName;
         private String phoneNumber;
@@ -50,6 +51,7 @@ public class UserResponseDto {
 
         public static GetUserInfoResponse from(User user){
             return GetUserInfoResponse.builder()
+                    .userId(user.getUserId())
                     .name(user.getName())
                     .nickName(user.getNickName())
                     .phoneNumber(user.getPhoneNumber())
