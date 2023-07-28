@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "추가 정보 입력", notes = "추가 정보를 입력합니다.")
-    @PostMapping("/additional-info")
+    @PutMapping("/additional-info")
     public ResponseEntity<ResponseDto<LoginResponse>> additionalInfo(@Valid @RequestBody AdditionInfoRequest additionInfoRequest) {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), SIGN_UP_SUCCESS.getMessage(), this.userSignUpService.signup(additionInfoRequest)));
     }
@@ -75,6 +75,12 @@ public class UserController {
     @PostMapping("/test/jwt")
     public ResponseEntity<ResponseDto<LoginResponse>> jwtTokenTest() {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), VALID_TOKEN.getMessage()));
+    }
+
+    @ApiOperation(value="커뮤니티 회원 정보 보기" , notes="커뮤니티 회원 정보 보기")
+    @PostMapping("/communities/info")
+    public ResponseEntity<ResponseDto<UserResponseDto.GetCommunityUserInfoResponse>> getCommunityUserInfo(@Valid @RequestBody GetCommunityUserInfoRequest getCommunityUserInfoRequest){
+        return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), GET_COMMUNITY_USERINFO_SUCCESS.getMessage(), this.userInfoService.getCommunityUserInfo(getCommunityUserInfoRequest)));
     }
 }
 
