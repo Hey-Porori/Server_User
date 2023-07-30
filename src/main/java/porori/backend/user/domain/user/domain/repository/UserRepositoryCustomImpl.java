@@ -1,10 +1,12 @@
 package porori.backend.user.domain.user.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import porori.backend.user.domain.user.domain.entity.QUser;
+import porori.backend.user.domain.user.application.dto.res.QUserResponseDto_CommunityUserInfoBlocks;
+import porori.backend.user.domain.user.application.dto.res.UserResponseDto;
 import porori.backend.user.domain.user.domain.entity.User;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 import static porori.backend.user.domain.user.domain.entity.QUser.user;
@@ -25,5 +27,18 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .where(user.appleId.eq(appleId),
                         user.withdrawalStatus.eq(false))
                 .fetchFirst());
+    }
+
+    @Override
+    public UserResponseDto.GetCommunityUserInfoResponse findCommunityUserInfoByUserIdList(List<Long> userIdList) {
+        List<UserResponseDto.CommunityUserInfoBlocks> blocks = queryFactory.select(new QUserResponseDto_CommunityUserInfoBlocks(
+                        user.userId,
+                        user.imageUrl,
+                        user.backgroundColor,
+                        user.nickName))
+                .from(user)
+                .where(user.userId.in(userIdList)) // userIdList 내의 userId들을 기준으로 조회
+                .fetch();
+        return new UserResponseDto.GetCommunityUserInfoResponse(blocks);
     }
 }

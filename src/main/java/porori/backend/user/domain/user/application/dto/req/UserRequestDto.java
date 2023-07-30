@@ -10,6 +10,8 @@ import porori.backend.user.domain.user.domain.entity.UserConstant;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserRequestDto {
     @Getter
@@ -107,5 +109,13 @@ public class UserRequestDto {
 
         private String accessToken;
 
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class GetCommunityUserInfoRequest{
+        private List<Long> userIdList;
     }
 }
