@@ -10,19 +10,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import porori.backend.user.domain.user.domain.service.UserValidationService;
 import porori.backend.user.global.config.security.jwt.JwtAccessDeniedHandler;
 import porori.backend.user.global.config.security.jwt.JwtAuthenticationEntryPoint;
 import porori.backend.user.global.config.security.jwt.JwtSecurityConfig;
-import porori.backend.user.global.config.security.jwt.TokenProvider;
+import porori.backend.user.global.config.security.jwt.TokenUtil;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final TokenProvider tokenProvider;
+    private final TokenUtil tokenUtil;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final UserValidationService userValidationService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -54,9 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/api/users/test/jwt").authenticated()
+                .antMatchers("/api/users/token/me").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenUtil,userValidationService));
     }
 }
 

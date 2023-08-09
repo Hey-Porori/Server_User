@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import porori.backend.user.domain.user.application.dto.req.UserRequestDto;
+import porori.backend.user.domain.user.domain.entity.UserConstant.RegistrationStatus;
 import porori.backend.user.domain.user.domain.entity.UserConstant.Role;
 
 import javax.persistence.*;
@@ -32,6 +33,9 @@ public class User {
     private Role role;
     private boolean withdrawalStatus;
 
+    @Enumerated(EnumType.STRING)
+    private RegistrationStatus registrationStatus;
+
     @Builder
     public User(String appleId, Role role) {
         this.appleId = appleId;
@@ -51,14 +55,15 @@ public class User {
         this.role=Role.ROLE_USER;
     }
 
-    public void signup(String name, String nickName, String phoneNumber, boolean gender, String address, String imageUrl, String email) {
-        this.name = name;
-        this.nickName = nickName;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.address = address;
-        this.imageUrl = imageUrl;
-        this.email = email;
+    public void signup(UserRequestDto.AdditionInfoRequest additionInfoRequest) {
+        this.name = additionInfoRequest.getName();
+        this.nickName = additionInfoRequest.getNickName();
+        this.phoneNumber = additionInfoRequest.getPhoneNumber();
+        this.gender = additionInfoRequest.getGender();
+        this.address = additionInfoRequest.getAddress();
+        this.imageUrl = additionInfoRequest.getImageUrl();
+        this.email = additionInfoRequest.getEmail();
+        this.registrationStatus=RegistrationStatus.COMPLETED;
     }
 
     public void withdraw(){

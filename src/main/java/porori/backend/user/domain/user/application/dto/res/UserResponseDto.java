@@ -24,15 +24,13 @@ public class UserResponseDto {
     public static class LoginResponse {
         private String accessToken;
         private String refreshToken;
-        private Long userId;
-        private String process;
+        private boolean registrationStatus;
 
-        public static LoginResponse from(TokenInfoResponse tokenInfoResponse, String process, Long userId) {
+        public static LoginResponse from(TokenInfoResponse tokenInfoResponse, boolean registrationStatus) {
             return LoginResponse.builder()
                     .accessToken(tokenInfoResponse.getAccessToken())
                     .refreshToken(tokenInfoResponse.getRefreshToken())
-                    .process(process)
-                    .userId(userId)
+                    .registrationStatus(registrationStatus)
                     .build();
         }
     }
