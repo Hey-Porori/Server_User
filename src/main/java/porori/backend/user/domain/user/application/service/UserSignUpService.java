@@ -45,7 +45,9 @@ public class UserSignUpService {
 
     public UserResponseDto.LoginResponse testSignUp(UserRequestDto.TestSignUpRequest signUpRequest) {
         User user = new User(signUpRequest);
+        user.updateRegistrationStatus();
         userSaveService.saveUser(user);
+        //2. signUp 처리;
         //3. security 처리
         AuthenticationUtil.makeAuthentication(user);
         //4. token 만들기

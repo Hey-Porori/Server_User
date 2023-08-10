@@ -66,6 +66,10 @@ public class User {
         this.registrationStatus=RegistrationStatus.COMPLETED;
     }
 
+    public void updateRegistrationStatus(){
+        this.registrationStatus=RegistrationStatus.COMPLETED;
+    }
+
     public void withdraw(){
         this.withdrawalStatus=true;
     }

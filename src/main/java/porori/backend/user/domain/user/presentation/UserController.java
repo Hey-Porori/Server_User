@@ -56,7 +56,7 @@ public class UserController {
 
 
     @ApiOperation(value = "사용자 정보 보기", notes = "사용자 정보를 확인합니다.")
-    @PostMapping("/token/me")
+    @GetMapping("/token/me")
     public ResponseEntity<ResponseDto<UserResponseDto.GetUserInfoResponse>> getUserInfo(
             @AuthenticationPrincipal CustomUser customUser) {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), GET_USERINFO_SUCCESS.getMessage(),userInfoService.getUserInfo(customUser.getAppleId())));
