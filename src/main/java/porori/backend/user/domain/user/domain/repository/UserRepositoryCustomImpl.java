@@ -3,7 +3,7 @@ package porori.backend.user.domain.user.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import porori.backend.user.domain.user.application.dto.response.CommunityUserInfoBlocks;
 import porori.backend.user.domain.user.application.dto.response.CommunityUserInfoResponse;
-import porori.backend.user.domain.user.application.dto.response.QUserResponseDto_CommunityUserInfoBlocks;
+import porori.backend.user.domain.user.application.dto.response.QCommunityUserInfoBlocks;
 import porori.backend.user.domain.user.domain.entity.User;
 
 import javax.persistence.EntityManager;
@@ -32,7 +32,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Override
     public CommunityUserInfoResponse findCommunityUserInfoByUserIdList(List<Long> userIdList) {
-        List<CommunityUserInfoBlocks> blocks = queryFactory.select(new QUserResponseDto_CommunityUserInfoBlocks(
+    List<CommunityUserInfoBlocks> blocks = queryFactory.select(new QCommunityUserInfoBlocks(
                         user.userId,
                         user.imageUrl,
                         user.backgroundColor,
