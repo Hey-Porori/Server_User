@@ -12,7 +12,8 @@ public enum EUserResponseMessage {
     LOGOUT_SUCCESS("로그아웃을 하였습니다"),
     VALID_TOKEN("유효한 토큰입니다"),
     GET_USERINFO_SUCCESS("사용자 정보 조회를 완료했습니다"),
-    GET_COMMUNITY_USERINFO_SUCCESS("커뮤니티에서 사용자 정보 조회를 완료했습니다");
+    GET_COMMUNITY_USERINFO_SUCCESS("커뮤니티에서 사용자 정보 조회를 완료했습니다"),
+    REISSUE_TOKEN_SUCCESS("토큰을 재발급하였습니다.");
 
     private final String message;
 }

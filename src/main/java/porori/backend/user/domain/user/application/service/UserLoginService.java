@@ -9,9 +9,11 @@ import porori.backend.user.domain.user.application.dto.req.UserRequestDto;
 import porori.backend.user.domain.user.application.dto.res.UserResponseDto;
 import porori.backend.user.domain.user.application.mapper.UserMapper;
 import porori.backend.user.domain.user.domain.entity.User;
+import porori.backend.user.domain.user.domain.entity.UserConstant;
 import porori.backend.user.domain.user.domain.service.UserSaveService;
 import porori.backend.user.domain.user.domain.service.UserValidationService;
-import porori.backend.user.global.config.security.jwt.TokenProvider;
+import porori.backend.user.global.config.security.jwt.TokenUtil;
+import porori.backend.user.global.config.security.utils.AuthenticationUtil;
 import porori.backend.user.global.dto.TokenInfoResponse;
 import porori.backend.user.global.exception.ConnException;
 
@@ -30,7 +32,7 @@ public class UserLoginService {
     private final UserSaveService userSaveService;
     private final UserValidationService userValidationService;
 
-    private final TokenProvider tokenProvider;
+    private final TokenUtil tokenUtil;
     public final UserMapper userMapper;
 
     public UserResponseDto.LoginResponse login(UserRequestDto.LoginRequest loginRequest) {
@@ -38,28 +40,29 @@ public class UserLoginService {
         String token = loginRequest.getToken();
         String appleId = appleService.verifyIdentityToken(token).orElseThrow(() -> new ConnException());
         User user = userSaveService.saveUser(appleId);
-        boolean isSignedUp = user.getNickName() != null;
+        boolean registrationStatus = user.getRegistrationStatus().equals(UserConstant.RegistrationStatus.COMPLETED);
+        //3. security 처리
+        AuthenticationUtil.makeAuthentication(user);
+        //4. token 만들기
+        TokenInfoResponse tokenResponse = tokenUtil.createToken(user, registrationStatus);
+        //5. refresh token 저장
+        tokenUtil.storeRefreshToken(user.getAppleId(), tokenResponse);
 
-        //2. 스프링 시큐리티 처리
-        List<GrantedAuthority> authorities = userMapper.initAuthorities();
-        OAuth2User userDetails = userMapper.createOAuth2UserByApple(authorities, appleId);
-        OAuth2AuthenticationToken auth = userMapper.configureAuthentication(userDetails, authorities);
-
-        //3. JWT 토큰 생성
-        TokenInfoResponse tokenInfoResponse = tokenProvider.createToken(auth, isSignedUp, user.getUserId());
-        return UserResponseDto.LoginResponse.from(tokenInfoResponse, isSignedUp ? LOGIN_SUCCESS.getMessage() : SIGN_UP_ING.getMessage(), user.getUserId());
+        return UserResponseDto.LoginResponse.from(tokenResponse, registrationStatus);
     }
 
 
     public UserResponseDto.LoginResponse testLogin(UserRequestDto.TestLoginRequest testLoginRequest) {
         User user = userValidationService.validateAppleId(testLoginRequest.getAppleId());
 
+        boolean registrationStatus = user.getRegistrationStatus().equals(UserConstant.RegistrationStatus.COMPLETED);
+        //3. security 처리
+        AuthenticationUtil.makeAuthentication(user);
+        //4. token 만들기
+        TokenInfoResponse tokenResponse = tokenUtil.createToken(user, registrationStatus);
+        //5. refresh token 저장
+        tokenUtil.storeRefreshToken(user.getAppleId(), tokenResponse);
 
-        List<GrantedAuthority> authorities = userMapper.initAuthorities();
-        OAuth2User userDetails = userMapper.createOAuth2UserByUser(authorities, user);
-        OAuth2AuthenticationToken auth = userMapper.configureAuthentication(userDetails, authorities);
-
-        TokenInfoResponse tokenInfoResponse = tokenProvider.createToken(auth, true, user.getUserId());
-        return UserResponseDto.LoginResponse.from(tokenInfoResponse, LOGIN_SUCCESS.getMessage(), user.getUserId());
+        return UserResponseDto.LoginResponse.from(tokenResponse, registrationStatus);
     }
 }

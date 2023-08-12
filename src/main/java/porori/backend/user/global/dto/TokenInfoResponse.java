@@ -21,4 +21,8 @@ public class TokenInfoResponse {
                 .refreshTokenExpirationTime(refreshTokenExpirationTime)
                 .build();
     }
+
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken=refreshToken;
+    }
 }

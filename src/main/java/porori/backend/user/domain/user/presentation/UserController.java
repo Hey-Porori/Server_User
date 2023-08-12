@@ -5,16 +5,17 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import porori.backend.user.domain.user.application.dto.req.UserRequestDto.*;
+import porori.backend.user.domain.user.application.dto.res.ReissueTokenResponse;
 import porori.backend.user.domain.user.application.dto.res.UserResponseDto;
 import porori.backend.user.domain.user.application.dto.res.UserResponseDto.LoginResponse;
-import porori.backend.user.domain.user.application.service.UserDeleteService;
-import porori.backend.user.domain.user.application.service.UserInfoService;
-import porori.backend.user.domain.user.application.service.UserLoginService;
-import porori.backend.user.domain.user.application.service.UserSignUpService;
+import porori.backend.user.domain.user.application.service.*;
+import porori.backend.user.global.config.security.dto.CustomUser;
 import porori.backend.user.global.dto.ResponseDto;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static porori.backend.user.domain.user.presentation.constant.EUserResponseMessage.*;
@@ -30,9 +31,10 @@ public class UserController {
     private final UserSignUpService userSignUpService;
     private final UserDeleteService userDeleteService;
     private final UserInfoService userInfoService;
+    private final ReissueTokenService reissueTokenService;
 
 
-    @ApiOperation(value = "애플 로그인", notes = "애ㅇ 로그인을 합니다.")
+    @ApiOperation(value = "애플 로그인", notes = "애플 로그인을 합니다.")
     @PostMapping("/auth/apple")
     public ResponseEntity<ResponseDto<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), LOGIN_SUCCESS.getMessage(), this.userLoginService.login(loginRequest)));
@@ -54,9 +56,10 @@ public class UserController {
 
 
     @ApiOperation(value = "사용자 정보 보기", notes = "사용자 정보를 확인합니다.")
-    @PostMapping("/token/me")
-    public ResponseEntity<ResponseDto<UserResponseDto.GetUserInfoResponse>> getUserInfo(@Valid @RequestBody GetUserInfoRequest getUserInfoRequest) {
-        return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), GET_USERINFO_SUCCESS.getMessage(),userInfoService.getUserInfo(getUserInfoRequest)));
+    @GetMapping("/token/me")
+    public ResponseEntity<ResponseDto<UserResponseDto.GetUserInfoResponse>> getUserInfo(
+            @AuthenticationPrincipal CustomUser customUser) {
+        return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), GET_USERINFO_SUCCESS.getMessage(),userInfoService.getUserInfo(customUser.getAppleId())));
     }
 
     @ApiOperation(value = "(테스트)회원가입", notes = "회원가입을 합니다")
@@ -79,8 +82,20 @@ public class UserController {
 
     @ApiOperation(value="커뮤니티 회원 정보 보기" , notes="커뮤니티 회원 정보 보기")
     @PostMapping("/communities/info")
-    public ResponseEntity<ResponseDto<UserResponseDto.GetCommunityUserInfoResponse>> getCommunityUserInfo(@Valid @RequestBody GetCommunityUserInfoRequest getCommunityUserInfoRequest){
+    public ResponseEntity<ResponseDto<UserResponseDto.GetCommunityUserInfoResponse>> getCommunityUserInfo(
+            @Valid @RequestBody GetCommunityUserInfoRequest getCommunityUserInfoRequest){
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), GET_COMMUNITY_USERINFO_SUCCESS.getMessage(), this.userInfoService.getCommunityUserInfo(getCommunityUserInfoRequest)));
+    }
+
+    @GetMapping("/reissue")
+    public ResponseEntity<ResponseDto<ReissueTokenResponse>> reissue(HttpServletRequest request) {
+
+        // 헤더로부터 RefreshToken 추출.
+        String token = request.getHeader("RefreshToken");
+        // 토큰 재발행
+        ReissueTokenResponse reissueToken = reissueTokenService.reissueToken(token);
+
+        return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), REISSUE_TOKEN_SUCCESS.getMessage(), reissueToken));
     }
 }
 

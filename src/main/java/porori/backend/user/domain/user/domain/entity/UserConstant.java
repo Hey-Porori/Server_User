@@ -7,4 +7,9 @@ public class UserConstant {
     public enum Role {
         ROLE_USER, ROLE_ADMIN
     }
+
+    @Getter
+    public enum RegistrationStatus {
+        COMPLETED, UNCOMPLETED;
+    }
 }

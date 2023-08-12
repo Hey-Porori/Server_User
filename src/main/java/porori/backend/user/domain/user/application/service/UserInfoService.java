@@ -9,7 +9,7 @@ import porori.backend.user.domain.user.application.dto.res.UserResponseDto.GetCo
 import porori.backend.user.domain.user.domain.entity.User;
 import porori.backend.user.domain.user.domain.service.UserQueryService;
 import porori.backend.user.domain.user.domain.service.UserValidationService;
-import porori.backend.user.global.config.security.jwt.TokenProvider;
+import porori.backend.user.global.config.security.jwt.TokenUtil;
 
 import javax.transaction.Transactional;
 
@@ -17,13 +17,12 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class UserInfoService {
-    private final TokenProvider tokenProvider;
+    private final TokenUtil tokenUtil;
     private final UserValidationService userValidationService;
     private final UserQueryService userQueryService;
 
-    public UserResponseDto.GetUserInfoResponse getUserInfo(UserRequestDto.GetUserInfoRequest getUserInfoRequest) {
-        Authentication authentication = tokenProvider.getAuthentication(getUserInfoRequest.getAccessToken());
-        User user = userValidationService.validateAppleId(authentication.getName());
+    public UserResponseDto.GetUserInfoResponse getUserInfo(String appleId) {
+        User user = userValidationService.validateAppleId(appleId);
         return UserResponseDto.GetUserInfoResponse.from(user);
     }
 
