@@ -50,6 +50,7 @@ public class User {
     public User(String appleId, Role role) {
         this.appleId = appleId;
         this.role = role;
+        this.registrationStatus=RegistrationStatus.UNCOMPLETED;
     }
 
     @Builder
@@ -75,6 +76,7 @@ public class User {
         this.email = additionInfoRequest.getEmail();
         this.registrationStatus = RegistrationStatus.COMPLETED;
     }
+
 
     public void updateRegistrationStatus() {
         this.registrationStatus = RegistrationStatus.COMPLETED;
