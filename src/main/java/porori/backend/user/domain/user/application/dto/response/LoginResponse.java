@@ -1,5 +1,6 @@
-package porori.backend.user.domain.user.application.dto.res;
+package porori.backend.user.domain.user.application.dto.response;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,16 +11,17 @@ import porori.backend.user.global.dto.TokenInfoResponse;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReissueTokenResponse {
-
+@ApiModel(description = "로그인을 위한 응답 객체")
+public class LoginResponse {
     private String accessToken;
     private String refreshToken;
+    private boolean registrationStatus;
 
-    public static ReissueTokenResponse from(TokenInfoResponse tokenInfoResponse) {
-        return ReissueTokenResponse.builder()
+    public static LoginResponse from(TokenInfoResponse tokenInfoResponse, boolean registrationStatus) {
+        return LoginResponse.builder()
                 .accessToken(tokenInfoResponse.getAccessToken())
                 .refreshToken(tokenInfoResponse.getRefreshToken())
+                .registrationStatus(registrationStatus)
                 .build();
     }
-
 }
