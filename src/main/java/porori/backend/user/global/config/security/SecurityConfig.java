@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/api/users/test/jwt").authenticated()
                 .antMatchers("/api/users/token/me").authenticated()
+                .antMatchers("/api/users/locations/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .apply(new JwtSecurityConfig(tokenUtil,userValidationService));

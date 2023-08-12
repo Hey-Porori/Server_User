@@ -3,7 +3,7 @@ package porori.backend.user.domain.user.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import porori.backend.user.domain.user.application.dto.res.ReissueTokenResponse;
+import porori.backend.user.domain.user.application.dto.response.ReissueTokenResponse;
 import porori.backend.user.global.config.security.exception.NotFoundRefreshTokenException;
 import porori.backend.user.global.config.security.jwt.TokenUtil;
 import porori.backend.user.global.dto.TokenInfoResponse;
