@@ -93,14 +93,14 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), REISSUE_TOKEN_SUCCESS.getMessage(), reissueToken));
     }
 
-    @ApiOperation(value = "사용자 위치 보기", notes = "사용자 위치를 확인합니다.")
+    @ApiOperation(value = "사용자 위치 조회", notes = "사용자 위치를 조회합니다.")
     @GetMapping("/locations")
     public ResponseEntity<ResponseDto<UserLocationResponse>> getUserLocation(
             @AuthenticationPrincipal CustomUser customUser) {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), GET_USERLOCATION_SUCCESS.getMessage(), userLocationService.getUserLocation(customUser.getAppleId())));
     }
 
-    @ApiOperation(value = "사용자 위치 조회", notes = "사용자 위치를 조회합니다.")
+    @ApiOperation(value = "사용자 위치 추가", notes = "사용자 위치를 추가합니다.")
     @PostMapping("/locations")
     public ResponseEntity<ResponseDto> addUserLocation(@AuthenticationPrincipal CustomUser customUser,
                                                        @Valid @RequestBody UserLocationRequest userLocationRequest) {
