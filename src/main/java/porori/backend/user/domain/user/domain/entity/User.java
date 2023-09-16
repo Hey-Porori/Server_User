@@ -86,32 +86,4 @@ public class User {
         this.withdrawalStatus = true;
     }
 
-    //==위치 관계 업데이트==//
-    public void addMyLocation(Location location) {
-        if (myLocations.size() < 2) { // 내 위치는 최대 2개
-            myLocations.add(location);
-            location.updateUser(this); // 양방향 관계 설정
-        } else {
-            throw new LocationLimitException();
-        }
-    }
-
-    private Location findLocationById(Long locationId) {
-        return myLocations.stream()
-                .filter(location -> location.getLocationId().equals(locationId))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundLocationException());
-    }
-
-    public void updateMyLocation(Long locationId, Location newLocationData) {
-        Location location = findLocationById(locationId);
-        // Location 엔티티 내에 정보를 업데이트하는 메서드를 호출
-        location.updateLocation(newLocationData);
-    }
-
-    public Location deleteMyLocation(Long locationId) {
-        Location location = findLocationById(locationId);
-        myLocations.remove(location);
-        return location;
-    }
 }

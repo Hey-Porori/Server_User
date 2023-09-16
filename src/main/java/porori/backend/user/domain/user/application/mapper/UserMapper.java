@@ -26,6 +26,7 @@ public class UserMapper {
                 .name(location.getName())
                 .longitude(location.getLongitude())
                 .latitude(location.getLatitude())
+                .isDefault(location.isDefault())
                 .build();
     }
     public Location toLocation(UserLocationRequest userLocationRequest) {
