@@ -116,6 +116,14 @@ public class UserController {
         return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), UPDATE_USERLOCATION_SUCCESS.getMessage()));
     }
 
+    @ApiOperation(value="사용자 위치 선택",notes="사용자 위치를 선택합니다. (디폴트)")
+    @PutMapping("/locations/{locationId}/select")
+    public ResponseEntity<ResponseDto> selectUserLocation(@AuthenticationPrincipal CustomUser customUser,
+                                                          @PathVariable Long locationId){
+        userLocationService.selectUserLocation(customUser.getAppleId(), locationId);
+        return ResponseEntity.ok(ResponseDto.create(HttpStatus.OK.value(), SELECT_USERLOCATION_SUCCESS.getMessage()));
+    }
+
     @ApiOperation(value = "사용자 위치 삭제", notes = "사용자 위치를 삭제합니다.")
     @DeleteMapping("/locations/{locationId}")
     public ResponseEntity<ResponseDto> deleteUserLocation(@AuthenticationPrincipal CustomUser customUser,

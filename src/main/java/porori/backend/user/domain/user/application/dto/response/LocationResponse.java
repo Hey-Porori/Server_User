@@ -15,5 +15,6 @@ public class LocationResponse {
     private String name;
     private Double longitude;
     private Double latitude;
+    private boolean isDefault;
 
 }

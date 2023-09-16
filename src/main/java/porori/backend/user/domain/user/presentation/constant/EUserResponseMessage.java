@@ -17,8 +17,8 @@ public enum EUserResponseMessage {
     GET_USERLOCATION_SUCCESS("사용자 위치를 조회했습니다"),
     ADD_USERLOCATION_SUCCESS("사용자 위치를 추가했습니다"),
     UPDATE_USERLOCATION_SUCCESS("사용자 위치를 수정했습니다"),
-    DELETE_USERLOCATION_SUCCESS("사용자 위치를 삭제했습니다");
-
+    DELETE_USERLOCATION_SUCCESS("사용자 위치를 삭제했습니다"),
+    SELECT_USERLOCATION_SUCCESS("사용자 위치를 선택했습니다");
     private final String message;
 }
 
